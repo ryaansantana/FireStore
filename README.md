@@ -63,7 +63,7 @@ Exemplo de documento:
   "telefone_aluno": "11954654123",
   "telefone_responsavel": "1196568762",
   "email": "santana@gmail.com",
-  "data_nascimento": "Timestamp (18/04/2004 00:00 - UTC-3)"
+  "data_nascimento": "Timestamp (06/01/2005 00:00 - UTC-3)"
 }
 ```
 
