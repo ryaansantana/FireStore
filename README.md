@@ -2,22 +2,42 @@
 
 Repositório destinado para exercicios desenvolvidos durante o curso técnico de **Desenvolvimento de Sistemas da Etec de Embu**.
 
-O projeto é uma aplicação web simples, feita com **HTML, CSS e JavaScript puro**, que se conecta ao **Firebase** e ao **Cloud Firestore** (banco NoSQL) para inserir, listar e excluir registros de alunos.
+Aqui ficam as atividades de **Banco de Dados 3** que usam o **Firebase** e o **Cloud Firestore** (banco NoSQL):
+
+| Atividade | Resumo | Tecnologias |
+| --------- | ------ | ----------- |
+| [`FireStore-Alunos`](./BD3-NoSQL-FireStore/FireStore-Alunos) | Cadastro de alunos: inserir, listar e excluir documentos | HTML, CSS, JavaScript puro, Firestore |
+| [`FireStore-RedeSocial`](./BD3-NoSQL-FireStore/FireStore-RedeSocial) | Protótipo de rede social com posts em tempo real | Node.js, Express, EJS, Socket.io, jQuery, Firestore |
 
 ---
 
 ## 📂 Estrutura do Repositório
 
 ```text
-.BD3-NoSQL-FireStore
+BD3-NoSQL-FireStore
 ├── FireStore-Alunos
-    ├── index.html
-    ├── style.css
-    ├── app.js
+│   ├── index.html
+│   ├── style.css
+│   ├── app.js
+│   └── README.md
+└── FireStore-RedeSocial
+    ├── public
+    │   ├── css
+    │   │   └── style.css
+    │   ├── img
+    │   │   └── logo.svg
+    │   ├── js
+    │   │   └── main.js
+    │   └── index.html
+    ├── src
+    │   └── firebase.js
+    ├── server.js
+    ├── package.json
+    ├── package-lock.json
     └── README.md
 ```
 
-### Arquivos
+### Arquivos – FireStore-Alunos
 
 | Arquivo      | Descrição                                                                           |
 | ------------ | ----------------------------------------------------------------------------------- |
@@ -26,9 +46,21 @@ O projeto é uma aplicação web simples, feita com **HTML, CSS e JavaScript pur
 | `app.js`     | Conexão com o Firebase/Firestore e as operações de inserir, listar e excluir alunos |
 | `README.md`  | Documentação do projeto                                                             |
 
+### Arquivos – FireStore-RedeSocial
+
+| Arquivo               | Descrição                                                                    |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `server.js`           | Servidor autocontido (Express + Socket.io), EJS e eventos do socket          |
+| `src/firebase.js`     | Conexão com o Firestore e as funções de buscar e gravar posts               |
+| `public/index.html`   | Página da rede social: topo, botão POST, feed e modal "FAÇA UM POST"         |
+| `public/js/main.js`   | Socket.io do front-end, renderização dos posts e envio pelo formulário      |
+| `public/css/style.css`| Estilização da página                                                        |
+| `package.json`        | Dependências e scripts (`npm start` / `npm run dev`)                         |
+| `README.md`           | Documentação do projeto                                                      |
+
 ---
 
-## 📚 Atividade
+## 📚 Atividade 1 – FireStore-Alunos
 
 A atividade parte de uma tabela relacional (`tbl_alunos`) que foi reestruturada para o modelo NoSQL do **Firestore**, onde não existem mais registros relacionais, e sim **documentos** com os dados de cada aluno, guardados em uma **coleção**.
 
@@ -110,6 +142,40 @@ timestamp.toDate().toLocaleDateString("pt-BR");
 
 ---
 
+## 📚 Atividade 2 – FireStore-RedeSocial
+
+Protótipo de **rede social** que aplica os conceitos do aplicativo de *CHAT* visto em aula. Os posts ficam gravados no **Firestore** e chegam em **tempo real** a todos os usuários conectados, sem recarregar a página, graças ao **Socket.io**.
+
+O usuário clica em **POST**, preenche o título e o conteúdo no modal **"FAÇA UM POST"** e o post aparece no feed de todos, com a data e a hora da publicação.
+
+| Item           | Valor                                   |
+| -------------- | --------------------------------------- |
+| Banco de dados | Cloud Firestore                         |
+| Coleção        | `posts`                                 |
+| Documento      | Um post (`titulo`, `conteudo`, `criadoEm`) |
+| Servidor       | Node.js + Express na porta `3000`       |
+
+### Eventos do Socket.io
+
+| Evento            | Direção               | O que faz                                              |
+| ----------------- | --------------------- | ------------------------------------------------------ |
+| `connection`      | navegador → servidor  | Um usuário abre a página                               |
+| `previousMessage` | servidor → navegador  | Envia todos os posts já gravados no Firestore          |
+| `sendMessage`     | navegador → servidor  | Envia um novo post do formulário para ser gravado      |
+| `receivedMessage` | servidor → todos      | Entrega o post recém-gravado a todos os conectados     |
+
+### Como executar
+
+```bash
+cd BD3-NoSQL-FireStore/FireStore-RedeSocial
+npm install
+npm run dev
+```
+
+Acesse `http://localhost:3000` e abra em duas abas para ver os posts chegando em tempo real. Mais detalhes no [README da atividade](./BD3-NoSQL-FireStore/FireStore-RedeSocial/README.md).
+
+---
+
 # ☁️ Como configurar o Firebase
 
 O **Firebase** é a plataforma do Google que hospeda o Firestore.
@@ -176,6 +242,8 @@ const firebaseConfig = {
 
 # 💻 Como executar o projeto no VS Code
 
+> Os passos abaixo são da atividade **FireStore-Alunos**. A **FireStore-RedeSocial** roda com Node.js (veja a seção acima).
+
 ### 1. Colar a configuração
 
 Abra o arquivo `app.js` e substitua o bloco `firebaseConfig` pelo que foi copiado do console.
@@ -220,12 +288,16 @@ Essa sequência permite acompanhar o fluxo completo de manipulação dos documen
 * **Cloud Firestore**
 * **NoSQL**
 * **Live Server**
+* **Node.js / Express**
+* **EJS**
+* **Socket.io**
+* **jQuery**
 
 ---
 
 # 🎓 Sobre o projeto
 
-Este repositório foi desenvolvido para fins **acadêmicos e educacionais**, servindo como registro da atividade prática realizada no componente **Banco de Dados 3** do curso técnico de **Desenvolvimento de Sistemas da Etec de Embu**.
+Este repositório foi desenvolvido para fins **acadêmicos e educacionais**, servindo como registro das atividades práticas realizadas no componente **Banco de Dados 3** do curso técnico de **Desenvolvimento de Sistemas da Etec de Embu**.
 
 **Professor:** Cristiano Correa de Moraes
 
